@@ -6,7 +6,6 @@ from jinja2 import TemplateNotFound
 @bp.route('/')
 @bp.route('/index')
 def index():
-    print("app/main/routes.py: index()")
     try:
         return render_template('index.html')
     except TemplateNotFound:
