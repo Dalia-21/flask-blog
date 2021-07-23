@@ -33,6 +33,16 @@ def login():
             flash("Invalid username or password.")
             return redirect(url_for('admin.login')) # behaviour could be improved
         login_user(user, remember=form.remember_me.data)
-        return redirect('admin/index')
+        return redirect(url_for('admin.login'))
     # currently just reusing standard login page
     return render_template('auth/login.html', title='Sign In', form=form)
+
+
+"""current behaviour is not as expected: admin when forced to login
+is redirected to standard index page"""
+
+
+@bp.route('/admin/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('main.index'))

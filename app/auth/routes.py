@@ -11,7 +11,7 @@ from app.models import User
 def login():
     if current_user.is_authenticated:
         if current_user.username == "admin":
-            return redirect(url_for('admin/index'))
+            return redirect(url_for('admin.admin'))
         else:
             return redirect(url_for('index'))
     form = LoginForm()
@@ -21,7 +21,7 @@ def login():
             flash('Invalid username or password')
             return redirect(url_for('auth.login'))
         login_user(user, remember=form.remember_me.data)
-        return redirect('/index')
+        return redirect(url_for('main.index'))
     return render_template('auth/login.html', title='Sign In', form=form)
 
 
