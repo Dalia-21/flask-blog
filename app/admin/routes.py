@@ -46,3 +46,5 @@ is redirected to standard index page"""
 def logout():
     logout_user()
     return redirect(url_for('main.index'))
+
+"""required routes: post submission, post editing, users, user view, post view"""
