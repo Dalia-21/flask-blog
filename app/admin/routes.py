@@ -4,13 +4,15 @@ from jinja2 import TemplateNotFound
 from app.admin import bp
 from flask_login import login_user, logout_user, current_user, login_required
 from app.auth.forms import LoginForm, RegistrationForm
-from app import db
+from app.models import User
 
 
 @bp.route('/admin', methods=['GET', 'POST'])
+@bp.route('/admin/index', methods=['GET', 'POST'])
 @login_required
 def admin():
     if not current_user.username == "admin":
+        flash('You are not allowed to access this page.')
         return redirect(url_for('main.index'))
     try:
         return render_template('admin/index.html')
@@ -22,13 +24,15 @@ def admin():
 def login():
     if current_user.is_authenticated and \
         current_user.username == 'admin':
-        return redirect(url_for('index'))
+        return redirect(url_for('admin.admin'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password')
-            return redirect(url_for('auth.login'))
+        if user is None or not user.check_password(form.password.data) or not \
+                user.username == "admin":
+            flash("Invalid username or password.")
+            return redirect(url_for('admin.login')) # behaviour could be improved
         login_user(user, remember=form.remember_me.data)
-        return redirect('/index')
+        return redirect('admin/index')
+    # currently just reusing standard login page
     return render_template('auth/login.html', title='Sign In', form=form)
