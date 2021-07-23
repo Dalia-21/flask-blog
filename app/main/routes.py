@@ -1,12 +1,10 @@
-from flask import render_template, abort
+from flask import render_template
 from app.main import bp
-from jinja2 import TemplateNotFound
+from app.models import Post
 
 
 @bp.route('/')
 @bp.route('/index')
 def index():
-    try:
-        return render_template('index.html')
-    except TemplateNotFound:
-        abort(404)
+    posts = Post.query.all()
+    return render_template('index.html', title='Home', posts=posts)
