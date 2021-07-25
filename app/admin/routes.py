@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from app.admin import bp
 from app import db
 from flask_login import login_user, logout_user, current_user, login_required
@@ -52,6 +52,23 @@ is redirected to standard index page"""
 def logout():
     logout_user()
     return redirect(url_for('main.index'))
+
+
+@bp.route('/admin/post/<post_id>', methods=['GET', 'POST'])
+def edit_post(post_id):
+    post_to_edit = Post.query.filter_by(id=post_id).first_or_404()
+    form = PostForm()
+    if form.validate_on_submit():
+        post_to_edit.title = form.title.data
+        post_to_edit.body = form.body.data
+        db.session.commit()
+        flash('Post successfully edited.')
+        return redirect(url_for('admin.admin'))
+    elif request.method == 'GET':
+        form.title.data = post_to_edit.title
+        form.body.data = post_to_edit.body
+    return render_template('admin/edit.html', title='Edit Post',
+                           form=form)
 
 
 """required routes: post submission, post editing, users, user view, post view"""
