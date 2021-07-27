@@ -8,6 +8,15 @@
     <br>
     {% endif %}
     {% for post in posts %}
-        {% include '_post.html' %}
+    <table class="table table-hover">
+        <tr>
+            <td>
+                <span id="post{{ post.title }}"><a href="{{ url_for('admin.edit_post', post_id=post.id) }}">{{ post.title }}</a></span>
+            </td>
+            <td>
+                <span id="post{{ post.id }}">{{ post.body }}</span>
+            </td>
+        </tr>
+    </table>
     {% endfor %}
 {% endblock %}
