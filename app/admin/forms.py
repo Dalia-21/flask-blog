@@ -10,4 +10,7 @@ class PostForm(FlaskForm):
 
 
 class PostEditForm(PostForm):
-    delete = SubmitField('Delete')
+    submit = SubmitField('Submit', render_kw={
+        "onclick": "return confirm('Are you sure you want to submit these changes?')"})
+    delete = SubmitField('Delete', render_kw={
+        "onclick": "return confirm('Are you sure you wish to delete this post?')"})
