@@ -4,7 +4,7 @@ from app import db
 from flask_login import login_user, logout_user, current_user, login_required
 from app.auth.forms import LoginForm
 from app.models import User, Post
-from app.admin.forms import PostForm
+from app.admin.forms import PostForm, PostEditForm
 
 
 @bp.route('/admin', methods=['GET', 'POST'])
@@ -57,13 +57,19 @@ def logout():
 @bp.route('/admin/post/<post_id>', methods=['GET', 'POST'])
 def edit_post(post_id):
     post_to_edit = Post.query.filter_by(id=post_id).first_or_404()
-    form = PostForm()
+    form = PostEditForm()
     if form.validate_on_submit():
-        post_to_edit.title = form.title.data
-        post_to_edit.body = form.body.data
-        db.session.commit()
-        flash('Post successfully edited.')
-        return redirect(url_for('admin.admin'))
+        if 'submit' in request.form:
+            post_to_edit.title = form.title.data
+            post_to_edit.body = form.body.data
+            db.session.commit()
+            flash('Post successfully edited.')
+            return redirect(url_for('admin.admin'))
+        elif 'delete' in request.form:
+            db.session.delete(post_to_edit)
+            db.session.commit()
+            flash('Post successfully deleted.')
+            return redirect(url_for('admin.admin'))
     elif request.method == 'GET':
         form.title.data = post_to_edit.title
         form.body.data = post_to_edit.body

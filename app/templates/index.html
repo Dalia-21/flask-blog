@@ -4,18 +4,10 @@
     {% if current_user.is_anonymous %}
     <h1>Hello, World!</h1>
     {% else %}
-    <h1>Hello, {{ current_user.username }}!</h1>
+    <h1 class="text-center">Hello, {{ current_user.username }}!</h1>
     {% endif %}
     {% for post in posts %}
-    <table class="table table-hover">
-        <tr>
-            <td>
-                <span id="post{{ post.title }}"><a href="{{ url_for('main.view_post', post_id=post.id) }}">{{ post.title }}</a></span>
-            </td>
-            <td>
-                <span id="post{{ post.id }}">{{ post.body }}</span>
-            </td>
-        </tr>
-    </table>
+    <h1 class="text-center"><a href="{{ url_for('main.view_post', post_id=post.id) }}">{{ post.title }}</a></h1>
+    <div id="post{{ post.id }}">{{ post.body }}</div>
     {% endfor %}
 {% endblock %}
