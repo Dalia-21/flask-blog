@@ -7,6 +7,10 @@ from app.models import Post
 @bp.route('/index')
 def index():
     posts = Post.query.all()
+    for post in posts:
+        sentences = post.body.split('. ')
+        excerpt = ". ".join(sentences[:] if len(sentences) <= 3 else sentences[:3])
+        post.body = excerpt + "." if excerpt[-1] != "." else excerpt
     return render_template('index.html', title='Home', posts=posts)
 
 

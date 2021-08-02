@@ -5,22 +5,28 @@
 {% endblock %}
 
 {% block navbar %}
-    <nav class="navbar navbar-default"><!-- can probably change appearance in that class tag -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a href="{{ url_for('main.index') }}">Home</a></li>
-                {% if current_user.is_anonymous %}
-                <a href="{{ url_for('auth.login') }}">Login</a>
-                {% else %}
-                <a href="{{ url_for('auth.logout') }}">Logout</a>
-                {% endif %}
-            </ul>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+               <a class="navbar-brand" href="{{ url_for('main.index') }}">Flaskblog</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right list-inline">
+                    {% if current_user.is_anonymous %}
+                    <li><a href="{{ url_for('auth.login') }}">{{ 'Login' }}</a></li>
+                    {% else %}
+                    <li><a>Hello {{ current_user.username }}</a></li>
+                    <li><a href="{{ url_for('main.index', username=current_user.username) }}">{{ 'Profile' }}</a></li>
+                    <li><a href="{{ url_for('auth.logout') }}">{{ 'Logout' }}</a></li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
     </nav>
 {% endblock %}
 
 {% block content %}
-    <div class="container">
+    <div>
         {% with messages = get_flashed_messages() %}
         {% if messages %}
             {% for message in messages %}
