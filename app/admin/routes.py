@@ -1,4 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request
+
+import app
 from app.admin import bp
 from app import db
 from flask_login import login_user, logout_user, current_user, login_required
@@ -10,7 +12,7 @@ from app.admin.forms import PostForm, PostEditForm
 @bp.route('/admin', methods=['GET', 'POST'])
 @bp.route('/admin/index', methods=['GET', 'POST'])
 @login_required
-def admin():
+def index():
     if not current_user.username == "admin":
         flash('You are not allowed to access this page.')
         return redirect(url_for('main.index'))
@@ -20,7 +22,7 @@ def admin():
         db.session.add(post)
         db.session.commit()
         flash('Your post is now live!')
-        return redirect(url_for('admin.admin'))
+        return redirect(url_for('admin.index'))
     posts = Post.query.all()
     return render_template('admin/index.html', title='Admin', form=form,
                            posts=posts)
@@ -29,13 +31,13 @@ def admin():
 @bp.route('/admin/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated and \
-            current_user.username == 'admin':
-        return redirect(url_for('admin.admin'))
+            current_user.username == app.Config['ADMIN_USERNAME']:
+        return redirect(url_for('admin.index'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data) or not \
-                user.username == "admin":
+                user.username == app.Config['ADMIN_USERNAME']:
             flash("Invalid username or password.")
             return redirect(url_for('admin.login'))  # behaviour could be improved
         login_user(user, remember=form.remember_me.data)
@@ -60,18 +62,18 @@ def edit_post(post_id):
     form = PostEditForm()
     if form.validate_on_submit():
         if 'back' in request.form:
-            return redirect(url_for('admin.admin'))
+            return redirect(url_for('admin.index'))
         elif 'submit' in request.form:
             post_to_edit.title = form.title.data
             post_to_edit.body = form.body.data
             db.session.commit()
             flash('Post successfully edited.')
-            return redirect(url_for('admin.admin'))
+            return redirect(url_for('admin.index'))
         elif 'delete' in request.form:
             db.session.delete(post_to_edit)
             db.session.commit()
             flash('Post successfully deleted.')
-            return redirect(url_for('admin.admin'))
+            return redirect(url_for('admin.index'))
     elif request.method == 'GET':
         form.title.data = post_to_edit.title
         form.body.data = post_to_edit.body
