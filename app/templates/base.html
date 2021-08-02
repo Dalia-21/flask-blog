@@ -5,21 +5,21 @@
 {% endblock %}
 
 {% block navbar %}
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default position-relative justify-content-between">
         <div class="container">
-            <div class="navbar-header">
-               <a class="navbar-brand" href="{{ url_for('main.index') }}">Flaskblog</a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right list-inline">
-                    {% if current_user.is_anonymous %}
-                    <li><a href="{{ url_for('auth.login') }}">{{ 'Login' }}</a></li>
-                    {% else %}
-                    <li><a>Hello {{ current_user.username }}</a></li>
-                    <li><a href="{{ url_for('main.index', username=current_user.username) }}">{{ 'Profile' }}</a></li>
-                    <li><a href="{{ url_for('auth.logout') }}">{{ 'Logout' }}</a></li>
-                    {% endif %}
+            <a class="navbar-brand" href="{{ url_for('main.index') }}">Flaskblog</a>
+            {% if current_user.is_anonymous %}
+            <a class="navbar-brand navbar-right" href="{{ url_for('auth.login') }}">{{ 'Login' }}</a>
+            {% else %}
+            <div class="dropdown btn-group nav navbar-right">
+                <button type="button" class="btn btn-secondary btn-lg dropdown-toggle" data-toggle="dropdown" id="profileDropdown" aria-haspopup="true" aria-expanded="false">
+                    Hello {{ current_user.username }}
+                </button>
+                <ul role="menu" class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{{ url_for('main.profile', user_id=current_user.id) }}">Profile</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Logout</a></li>
                 </ul>
+                {% endif %}
             </div>
         </div>
     </nav>
