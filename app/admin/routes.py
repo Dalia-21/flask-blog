@@ -80,7 +80,16 @@ def edit_post(post_id):
     return render_template('admin/edit.html', title='Edit Post',
                            form=form)
 
+
 @bp.route('/admin/users', methods=['GET', 'POST'])
 def users():
-    return render_template('admin/users.html', title='Users')
+    user_records = User.query.all()
+    if request.args.get('user_id'):
+        user_to_delete = User.query.get(int(request.args.get('user_id')))
+        db.session.delete(user_to_delete)
+        db.session.commit()
+        flash('User {} successfully deleted.'.format(user_to_delete.username))
+        user_records = User.query.all() # updating list to remove deleted user
+    return render_template('admin/users.html', title='Users',
+                           users=user_records)
 """required routes: post submission, post editing, users, user view, post view"""
