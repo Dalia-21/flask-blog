@@ -1,9 +1,13 @@
+import jinja2
 from flask import Flask
 from flask_bootstrap import Bootstrap
+
 from config import Config
+from config import env_override
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from jinja2 import environment
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -11,6 +15,7 @@ bootstrap = Bootstrap()
 login = LoginManager()
 login.login_view = 'auth.login'
 login.login_message = 'Please log in to access this page.'
+jinja2.filters.FILTERS['env_override'] = env_override
 
 def create_app(config_class=Config):
     app = Flask(__name__)

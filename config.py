@@ -7,3 +7,7 @@ class Config(object):
         'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME') or 'Admin'
+
+
+def env_override(value, key):
+    return os.getenv(key, value)

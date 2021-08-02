@@ -8,8 +8,13 @@
     <nav class="navbar navbar-default position-relative justify-content-between">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('main.index') }}">Flaskblog</a>
+            {% if current_user.username == "Admin" | env_override('ADMIN_USERNAME') %}
+            <a class="navbar-brand navbar-right" href="{{ url_for('admin.index') }}">Admin</a>
+            <a class="navbar-brand navbar-right" href="{{ url_for('admin.users') }}">Users</a>
+            {% endif %}
+            {# profile dropdown should display for admin too, which is why the clause is separate #}
             {% if current_user.is_anonymous %}
-            <a class="navbar-brand navbar-right" href="{{ url_for('auth.login') }}">{{ 'Login' }}</a>
+            <a class="navbar-brand navbar-right" href="{{ url_for('auth.login') }}">Login</a>
             {% else %}
             <div class="dropdown btn-group nav navbar-right">
                 <button type="button" class="btn btn-secondary btn-lg dropdown-toggle" data-toggle="dropdown" id="profileDropdown" aria-haspopup="true" aria-expanded="false">

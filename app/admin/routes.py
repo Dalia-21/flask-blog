@@ -80,5 +80,7 @@ def edit_post(post_id):
     return render_template('admin/edit.html', title='Edit Post',
                            form=form)
 
-
+@bp.route('/admin/users', methods=['GET', 'POST'])
+def users():
+    return render_template('admin/users.html', title='Users')
 """required routes: post submission, post editing, users, user view, post view"""
