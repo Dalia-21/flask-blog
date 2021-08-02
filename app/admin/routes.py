@@ -13,7 +13,7 @@ from app.admin.forms import PostForm, PostEditForm
 @bp.route('/admin/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    if not current_user.username == "admin":
+    if not current_user.username == app.Config.ADMIN_USERNAME:
         flash('You are not allowed to access this page.')
         return redirect(url_for('main.index'))
     form = PostForm()
@@ -31,13 +31,13 @@ def index():
 @bp.route('/admin/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated and \
-            current_user.username == app.Config['ADMIN_USERNAME']:
+            current_user.username == app.Config.ADMIN_USERNAME:
         return redirect(url_for('admin.index'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data) or not \
-                user.username == app.Config['ADMIN_USERNAME']:
+                user.username == app.Config.ADMIN_USERNAME:
             flash("Invalid username or password.")
             return redirect(url_for('admin.login'))  # behaviour could be improved
         login_user(user, remember=form.remember_me.data)
