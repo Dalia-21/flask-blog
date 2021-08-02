@@ -14,3 +14,4 @@ class PostEditForm(PostForm):
         "onclick": "return confirm('Are you sure you want to submit these changes?')"})
     delete = SubmitField('Delete', render_kw={
         "onclick": "return confirm('Are you sure you wish to delete this post?')"})
+    back = SubmitField('Back')

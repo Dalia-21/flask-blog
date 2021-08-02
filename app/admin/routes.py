@@ -59,7 +59,9 @@ def edit_post(post_id):
     post_to_edit = Post.query.filter_by(id=post_id).first_or_404()
     form = PostEditForm()
     if form.validate_on_submit():
-        if 'submit' in request.form:
+        if 'back' in request.form:
+            return redirect(url_for('admin.admin'))
+        elif 'submit' in request.form:
             post_to_edit.title = form.title.data
             post_to_edit.body = form.body.data
             db.session.commit()
