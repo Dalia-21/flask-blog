@@ -1,6 +1,18 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
     <h1 class="text-center">{{ post.title }}</h1>
-    <div>{{ post.body }}</div>
+    <div>{{ post.body }}</div><br>
+    {% if current_user.is_anonymous %}
+        <h2><a href="{{ url_for('auth.login') }}">Sign in</a> to comment!</h2>
+    {% else %}
+        <h2>Comment as {{ current_user.username }}</h2>
+        {% if comment_form %}
+        {{ wtf.quick_form(comment_form) }}
+        {% endif %}
+    {% endif %}
+    {% for comment in comments %}
+        {% include '_comment.html' %}
+    {% endfor %}
 {% endblock %}

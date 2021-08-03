@@ -12,6 +12,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(64))
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+    comments = db.relationship('Comment', backref='author', lazy='dynamic')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -41,3 +42,18 @@ class Post(db.Model):
 
     def __repr__(self):
         return '<Title: {}>\nPost {}'.format(self.title, self.body)
+
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.String())
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    is_reply = db.Column(db.Boolean)
+    parent_comment = db.Column(db.Integer, db.ForeignKey('comment.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    replies = db.relationship('Comment', backref='reply', remote_side=id)
+    parent_post = db.relationship('Post', backref='post')
+
+    def __repr__(self):
+        return '<{}> by {} at {}'.format(self.body, self.author, self.timestamp)
