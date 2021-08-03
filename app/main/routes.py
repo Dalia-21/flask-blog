@@ -29,14 +29,14 @@ def index():
 @bp.route('/post/<post_id>', methods=['GET', 'POST'])
 def view_post(post_id):
     post = Post.query.filter_by(id=post_id).first_or_404()
-    comments = Comment.query.all()
+    comments = Comment.query.filter_by(post_id=post_id)
     comment_form = CommentForm() if current_user.is_authenticated else None
     if comment_form.validate_on_submit():
         comment = Comment(body=comment_form.comment.data, post_id=post.id,
                           user_id=current_user.id, is_reply=False)
         db.session.add(comment)
         db.session.commit()
-        comments=Comment.query.all()  # so new comment is displayed
+        comments=Comment.query.filter_by(post_id=post_id)  # so new comment is displayed
     return render_template('post.html', title=post.title,
                            post=post, comment_form=comment_form,
                            comments=comments)

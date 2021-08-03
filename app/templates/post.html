@@ -12,7 +12,7 @@
         {{ wtf.quick_form(comment_form) }}
         {% endif %}
     {% endif %}
-    {% for comment in comments %}
+    {% for comment in comments %}{# need to clear text box after posting #}
         {% include '_comment.html' %}
     {% endfor %}
 {% endblock %}
