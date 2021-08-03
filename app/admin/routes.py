@@ -89,7 +89,6 @@ def users():
         db.session.delete(user_to_delete)
         db.session.commit()
         flash('User {} successfully deleted.'.format(user_to_delete.username))
-        user_records = User.query.all() # updating list to remove deleted user
+        user_records = User.query.all()  # updating list to remove deleted user
     return render_template('admin/users.html', title='Users',
                            users=user_records)
-"""required routes: post submission, post editing, users, user view, post view"""
