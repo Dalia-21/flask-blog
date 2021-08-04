@@ -33,7 +33,7 @@ def view_post(post_id):
     comment_form = CommentForm() if current_user.is_authenticated else None
     if comment_form.validate_on_submit():
         comment = Comment(body=comment_form.comment.data, post_id=post.id,
-                          user_id=current_user.id, is_reply=False)
+                          user_id=current_user.id)
         db.session.add(comment)
         db.session.commit()
         comments=Comment.query.filter_by(post_id=post_id)  # so new comment is displayed
