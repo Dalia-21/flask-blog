@@ -1,0 +1,4 @@
+Back does not take the user back to login page
+jinja2.exceptions.UndefinedError: 'form' is undefined
+
+Changing admin's email does not appear to have actually done anything

@@ -14,5 +14,23 @@
     {% endif %}
     {% for comment in comments %}{# need to clear text box after posting #}
         {% include '_comment.html' %}
+        <button class="button" onclick="$('#{{ comment.id }}').show();">
+            Reply
+        </button>
+        <div style="display: none;" id="{{ comment.id }}">
+            {% if comment_form %}
+            <form class="form form-horizontal" method="post" role="form">
+                {{ comment_form.csrf_token() }}
+                {{ wtf.form_errors(comment_form, hiddens=True) }}
+
+                {# Need to find jinja for indenting comments #}
+                {# also need to work out how this reply shit works #}
+
+                {{ comment_form.parent_id(value=comment.id) }}
+                {{ wtf.form_field(comment_form.comment) }}
+                {{ wtf.form_field(comment_form.submit) }}
+            </form>
+            {% endif %}
+        </div>
     {% endfor %}
 {% endblock %}

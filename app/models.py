@@ -56,4 +56,6 @@ class Comment(db.Model):
     parent_post = db.relationship('Post', backref='post')
 
     def __repr__(self):
-        return '<{}> by {} at {}'.format(self.body, self.author, self.timestamp)
+        return '<{}> by {} at {} with {} and {}'.format(self.body, self.author,
+                                                        self.timestamp, self.replies,
+                                                        self.parent_id)

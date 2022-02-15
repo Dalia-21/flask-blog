@@ -32,11 +32,12 @@ def view_post(post_id):
     comments = Comment.query.filter_by(post_id=post_id)
     comment_form = CommentForm() if current_user.is_authenticated else None
     if comment_form.validate_on_submit():
+        print(comment_form.parent_id)
         comment = Comment(body=comment_form.comment.data, post_id=post.id,
-                          user_id=current_user.id)
+                          user_id=current_user.id, parent_id=comment_form.parent_id.data)
         db.session.add(comment)
         db.session.commit()
-        comments=Comment.query.filter_by(post_id=post_id)  # so new comment is displayed
+        comments = Comment.query.filter_by(post_id=post_id)  # so new comment is displayed
     return render_template('post.html', title=post.title,
                            post=post, comment_form=comment_form,
                            comments=comments)

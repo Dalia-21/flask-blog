@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField, HiddenField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from app.models import User
 
@@ -33,4 +33,5 @@ class EditCredentialsForm(FlaskForm):
 
 class CommentForm(FlaskForm):
     comment = TextAreaField('Comment', validators=[DataRequired()])
+    parent_id = HiddenField()
     submit = SubmitField('Submit')
