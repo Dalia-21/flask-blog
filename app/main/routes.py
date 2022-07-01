@@ -30,7 +30,7 @@ def index():
 def view_post(post_id):
     post = Post.query.filter_by(id=post_id).first_or_404()
     comments = Comment.query.filter_by(post_id=post_id)
-    comment_form = CommentForm() if current_user.is_authenticated else None
+    comment_form = CommentForm()
     if comment_form.validate_on_submit():
         print(comment_form.parent_id)
         comment = Comment(body=comment_form.comment.data, post_id=post.id,
