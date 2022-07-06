@@ -32,7 +32,28 @@ def view_post(post_id):
     comments = Comment.query.filter_by(post_id=post_id)
     comment_form = CommentForm()
     if comment_form.validate_on_submit():
-        print(comment_form.parent_id)
+        # enable user mentions
+        if "@" in comment_form.comment.data:
+            comment_text = comment_form.comment.data
+            output_parts = []
+            text_parts = comment_text.split('@')
+            output_parts.append(text_parts[0])
+            for part in text_parts[1:]:
+                found_username = part.split(' ')[0]
+                if User.query.filter_by(username=found_username).first():
+                    found_user = User.query.filter_by(username=found_username).first()
+                elif User.query.filter_by(username=found_username.capitalize()).first():
+                    found_user = User.query.filter_by(username=found_username.capitalize()).first()
+                else:
+                    output_parts.append("@" + part)
+                    found_user = None
+
+                if found_user:
+                    profile_link = url_for('main.profile', user_id=found_user.id)
+                    output_parts.append('@' + '<a href="' + profile_link + '">'
+                            + found_username + '</a>' + part[part.find(' '):])
+            comment_form.comment.data = ' '.join(output_parts)
+
         comment = Comment(body=comment_form.comment.data, post_id=post.id,
                           user_id=current_user.id, parent_id=comment_form.parent_id.data)
         db.session.add(comment)
