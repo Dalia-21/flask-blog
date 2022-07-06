@@ -18,6 +18,9 @@ def index():
         return redirect(url_for('main.index'))
     form = PostForm()
     if form.validate_on_submit():
+        # add html formatting for newlines
+        form.body.data = "<p>" + form.body.data.replace("\r\n", "</p><p>") + "</p>"
+
         post = Post(title=form.title.data, body=form.body.data)
         db.session.add(post)
         db.session.commit()

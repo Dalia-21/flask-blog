@@ -3,7 +3,7 @@
 
 {% block app_content %}
     <h1 class="text-center">{{ post.title }}</h1>
-    <div>{{ post.body }}</div><br>
+    <div style="font-size:large">{{ post.body | safe }}</div><br>
     {% if current_user.is_anonymous %}
         <h2><a href="{{ url_for('auth.login') }}">Sign in</a> to comment!</h2>
     {% else %}
