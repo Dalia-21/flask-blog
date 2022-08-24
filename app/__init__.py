@@ -7,7 +7,9 @@ from config import env_override
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
-from jinja2 import environment
+from jinja2 import environment # this and the filters statement
+# below were probably a hack I used a while ago
+# I still need to investigate what I was trying to achieve
 
 db = SQLAlchemy()
 migrate = Migrate()

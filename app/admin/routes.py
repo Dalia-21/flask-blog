@@ -84,6 +84,9 @@ def edit_post(post_id):
                            form=form)
 
 
+# Behaviour of this code is not currently clear
+# Code should be refactored to make it clear that this
+# page serves only to delete current users
 @bp.route('/admin/users', methods=['GET', 'POST'])
 def users():
     user_records = User.query.all()

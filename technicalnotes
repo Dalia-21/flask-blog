@@ -2,3 +2,12 @@ Back does not take the user back to login page
 jinja2.exceptions.UndefinedError: 'form' is undefined
 
 Changing admin's email does not appear to have actually done anything
+
+pip install:
+flask-bootstrap
+flask_sqlalchemy
+flask_migrate
+python-dotenv
+flask_login
+flask_wtf
+email_validator

@@ -26,6 +26,8 @@
 
                 {# Need to find jinja for indenting comments #}
                 {# also need to work out how this reply shit works #}
+                {# This was worked out recently, I just need to implement #}
+                {# quoting someone's comment in a reply #}
 
                 {{ comment_form.parent_id(value=comment.id) }}
                 {{ wtf.form_field(comment_form.comment) }}
