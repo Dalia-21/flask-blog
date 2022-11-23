@@ -6,16 +6,17 @@ from config import Config
 from config import env_override
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from jinja2 import environment # not sure why this import was added
 
 db = SQLAlchemy()
 migrate = Migrate()
 bootstrap = Bootstrap()
+
 jinja2.filters.FILTERS['env_override'] = env_override # was this a hack?
 
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
+    app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
 
     db.init_app(app)
     migrate.init_app(app, db)

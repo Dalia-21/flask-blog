@@ -1,6 +1,5 @@
 from flask import render_template, redirect, url_for, flash, request
 
-import app
 from app.admin import bp
 from app import db
 from app.models import Post
