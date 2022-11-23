@@ -3,37 +3,6 @@
 
 {% block app_content %}
     <h1 class="text-center">{{ post.title }}</h1>
-    <div style="font-size:large">{{ post.body | safe }}</div><br>
-    {% if current_user.is_anonymous %}
-        <h2><a href="{{ url_for('auth.login') }}">Sign in</a> to comment!</h2>
-    {% else %}
-        <h2>Comment as {{ current_user.username }}</h2>
-        {% if comment_form %}
-        {{ wtf.quick_form(comment_form) }}
-        {% endif %}
-    {% endif %}
+    <div>{{ post.body }}</div>
 
-    {% for comment in comments %}
-        {% include '_comment.html' %}
-        <button class="button" onclick="$('#{{ comment.id }}').show();">
-            Reply
-        </button>
-        <div style="display: none;" id="{{ comment.id }}">
-            {% if comment_form %}
-            <form class="form form-horizontal" method="post" role="form">
-                {{ comment_form.csrf_token() }}
-                {{ wtf.form_errors(comment_form, hiddens=True) }}
-
-                {# Need to find jinja for indenting comments #}
-                {# also need to work out how this reply shit works #}
-                {# This was worked out recently, I just need to implement #}
-                {# quoting someone's comment in a reply #}
-
-                {{ comment_form.parent_id(value=comment.id) }}
-                {{ wtf.form_field(comment_form.comment) }}
-                {{ wtf.form_field(comment_form.submit) }}
-            </form>
-            {% endif %}
-        </div>
-    {% endfor %}
 {% endblock %}

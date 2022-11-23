@@ -3,7 +3,7 @@ jinja2.exceptions.UndefinedError: 'form' is undefined
 
 Changing admin's email does not appear to have actually done anything
 
-pip install:
+pip install: # this should be handled through automatic generation
 flask-bootstrap
 flask_sqlalchemy
 flask_migrate
@@ -11,3 +11,23 @@ python-dotenv
 flask_login
 flask_wtf
 email_validator
+
+References to users:
+app/__init__.py (references LoginManager)
+models.py (most can probably go except for Post class)
+
+admin/routes.py (uses user functionality for admin user)
+
+auth/forms.py
+auth/routes.py
+
+main/forms.py (all these forms are for users)
+main/routes.py (view_post and profile functions)
+
+templates/base.html
+templates/post.html
+templates/profile.html
+
+templates/admin/users.html
+
+auth/*

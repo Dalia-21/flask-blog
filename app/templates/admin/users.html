@@ -1,8 +1,0 @@
-{% extends 'base.html' %}
-
-{% block app_content %}
-    {% for user in users %}
-    <h3>Username: {{ user.username }}</h3><div>Email: {{ user.email }}</div>
-    <a href="{{ url_for('admin.users', user_id=user.id) }}">Delete</a>
-    {% endfor %}
-{% endblock %}
