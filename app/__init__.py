@@ -1,6 +1,8 @@
 import jinja2
 from flask import Flask
 from flask_bootstrap import Bootstrap
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 
 from config import Config
 from config import env_override
@@ -11,8 +13,10 @@ from flask_migrate import Migrate
 db = SQLAlchemy()
 migrate = Migrate()
 bootstrap = Bootstrap()
+admin = Admin()
 
-jinja2.filters.FILTERS['env_override'] = env_override # was this a hack?
+jinja2.filters.FILTERS['env_override'] = env_override  # was this a hack?
+
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -22,11 +26,13 @@ def create_app(config_class=Config):
     db.init_app(app)
     migrate.init_app(app, db)
 
+    from app.models import Post
+
+    admin.init_app(app)
+    admin.add_view(ModelView(Post, db.session))
+
     from app.errors import bp as errors_bp
     app.register_blueprint(errors_bp)
-
-    from app.admin import bp as admin_bp
-    app.register_blueprint(admin_bp)
 
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)
@@ -35,4 +41,5 @@ def create_app(config_class=Config):
 
     return app
 
-from app import models
+
+from app import models  # not sure if this line is needed anymore
