@@ -1,5 +1,5 @@
 from datetime import datetime
-from app import db
+from app import db, login_manager
 from flask_security import UserMixin, RoleMixin
 
 
@@ -42,3 +42,8 @@ class User(db.Model, UserMixin):
     confirmed_at = db.Column(db.DateTime())
     roles = db.relationship('Role', secondary='roles_users',
                             backref='users', lazy='dynamic')
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get(user_id)
