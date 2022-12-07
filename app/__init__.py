@@ -2,6 +2,7 @@ import jinja2
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 
 from config import Config
 from config import env_override
@@ -39,3 +40,5 @@ def create_app(config_class=Config):
 
 
 from app import models
+
+admin.add_view(ModelView(models.Post, db.session))
