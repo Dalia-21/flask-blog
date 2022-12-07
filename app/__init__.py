@@ -2,7 +2,6 @@ import jinja2
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
 
 from config import Config
 from config import env_override
@@ -26,10 +25,7 @@ def create_app(config_class=Config):
     db.init_app(app)
     migrate.init_app(app, db)
 
-    from app.models import Post
-
     admin.init_app(app)
-    admin.add_view(ModelView(Post, db.session))
 
     from app.errors import bp as errors_bp
     app.register_blueprint(errors_bp)
@@ -42,4 +38,4 @@ def create_app(config_class=Config):
     return app
 
 
-from app import models  # not sure if this line is needed anymore
+from app import models
