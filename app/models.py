@@ -1,6 +1,6 @@
 from datetime import datetime
-from app import db, login_manager
-from flask_security import UserMixin, RoleMixin
+from app import db
+from flask_login import UserMixin
 
 
 class Post(db.Model):
@@ -14,11 +14,13 @@ class Post(db.Model):
         return '<Title: {}>\nPost {}'.format(self.title, self.body)
 
 
-class User(db.Model, UserMixin):
+class User(db.Model, UserMixin):  # needs to conform to flask_login requirements
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255))
-    password = db.Column(db.String(255))  # will this be hashed?
+    email = db.Column(db.String(255))
+    password_hash = db.Column(db.String(255))
+    admin = db.Column(db.Boolean(), default=False)
     last_login_at = db.Column(db.DateTime())
     current_login_at = db.Column(db.DateTime())
     last_login_ip = db.Column(db.String(100))
@@ -26,10 +28,3 @@ class User(db.Model, UserMixin):
     login_count = db.Column(db.Integer)
     active = db.Column(db.Boolean())
     confirmed_at = db.Column(db.DateTime())
-    roles = db.relationship('Role', secondary='roles_users',
-                            backref='users', lazy='dynamic')
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.get(user_id)
