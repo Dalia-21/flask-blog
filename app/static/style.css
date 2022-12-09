@@ -4,5 +4,20 @@
     text-shadow: 2px 2px 5px pink;
 }
 #header-link:hover { text-decoration: none; }
+.pagination-button {
+    margin: 2%;
+    background-color: deeppink;
+    border-color: deeppink;
+}
+.pagination-button:hover {
+    cursor: default;
+    background-color: deeppink;
+    border-color: deeppink;
+}
+.pagination-link:link, .pagination-link:visited { color: white; }
+.pagination-link:hover, .pagination-link:active {
+    color: white;
+    text-decoration: none;
+}
 a:link, a:visited, a:hover, a:active { color: deeppink };
 nav { background-color: pink };
