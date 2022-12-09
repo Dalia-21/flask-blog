@@ -1,2 +1,8 @@
-a, h1 { deeppink };
-navbar { pink };
+#header-link {
+    font-size: 50px;
+    font-family: cursive;
+    text-shadow: 2px 2px 5px pink;
+}
+#header-link:hover { text-decoration: none; }
+a:link, a:visited, a:hover, a:active { color: deeppink };
+nav { background-color: pink };
