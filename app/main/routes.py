@@ -1,7 +1,9 @@
-from flask import render_template, url_for, abort, flash, request, redirect
+from flask import render_template, url_for, abort, flash, \
+    request, redirect, current_app
 from flask_login import login_user, logout_user
 from werkzeug.security import check_password_hash
 from flask_admin.helpers import is_safe_url
+
 from app.main import bp
 from app.models import Post
 from app.models import User
@@ -11,12 +13,20 @@ from app.main.forms import LoginForm
 @bp.route('/')
 @bp.route('/index')
 def index():
-    posts = Post.query.all()
-    #for post in posts:
-    #    sentences = post.body.split('. ')
-    #    excerpt = ". ".join(sentences[:] if len(sentences) <= 3 else sentences[:3])
-    #    post.body = excerpt + "." if excerpt[-1] != "." else excerpt
-    return render_template('index.html', title='Home', posts=posts)
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.order_by(Post.timestamp.desc()).paginate(
+        page=page, per_page=current_app.config['POSTS_PER_PAGE'], error_out=False)
+    for post in posts:
+        sentences = post.body.split('. ')
+        excerpt = ". ".join(sentences[:] if len(sentences) <= 5 else sentences[:5])
+        post.body = excerpt + "." if excerpt[-1] != "." else excerpt
+
+    next_url = url_for('main.index', page=posts.next_num) \
+        if posts.has_next else None
+    prev_url = url_for('main.index', page=posts.prev_num) \
+        if posts.has_prev else None
+    return render_template('index.html', title='Home', posts=posts.items,
+                           next_url=next_url, prev_url=prev_url)
 
 
 @bp.route('/post/<post_id>', methods=['GET', 'POST'])

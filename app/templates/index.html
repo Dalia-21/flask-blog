@@ -10,4 +10,14 @@
     <div class="container" style="max-width: 800px" id="post{{ post.id }}">
         {{ post.body | safe }}<a href="{{ url_for('main.view_post', post_id=post.id) }}"> Read more...</a></div>
     {% endfor %}
+    {% if prev_url %}
+    <button type="button" class="btn btn-primary pagination-button">
+        <a class="pagination-link" href="{{ prev_url }}">Newer posts</a>
+    </button>
+    {% endif %}
+    {% if next_url %}
+    <button type="button" class="btn btn-primary pagination-button">
+        <a class="pagination-link" href="{{ next_url }}">Older posts</a>
+    </button>
+    {% endif %}
 {% endblock %}

@@ -7,6 +7,7 @@ class Config(object):
         'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME') or 'Admin'
+    POSTS_PER_PAGE = 10
 
 
 def env_override(value, key):
