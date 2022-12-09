@@ -1,9 +1,7 @@
-import jinja2
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
 from config import Config
-from config import env_override
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
@@ -12,8 +10,6 @@ db = SQLAlchemy()
 migrate = Migrate()
 bootstrap = Bootstrap()
 login_manager = LoginManager()
-
-jinja2.filters.FILTERS['env_override'] = env_override  # was this a hack?
 
 
 def create_app(config_class=Config):
