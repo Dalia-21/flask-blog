@@ -19,5 +19,9 @@
     color: white;
     text-decoration: none;
 }
-a:link, a:visited, a:hover, a:active { color: deeppink };
+a:link, a:visited, a:hover, a:active {
+    color: deeppink;
+    text-decoration: none;
+}
+h1 { color: deeppink; }
 nav { background-color: pink };
