@@ -44,7 +44,10 @@ admin.add_view(SecureModelView(Post, db.session, name='Posts'))
 admin.add_view(SecureModelView(aboutPost, db.session, name='About Posts'))
 
 logout_link = MenuLink(name='Logout', url='/admin/logout')
+home_link = MenuLink(name='Blog Home', url='/index')
+admin.add_link(home_link)
 admin.add_link(logout_link)
+
 
 
 @login_manager.user_loader
