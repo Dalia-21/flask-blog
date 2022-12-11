@@ -5,8 +5,7 @@ from werkzeug.security import check_password_hash
 from flask_admin.helpers import is_safe_url
 
 from app.main import bp
-from app.models import Post
-from app.models import User
+from app.models import Post, User, aboutPost
 from app.main.forms import LoginForm
 
 
@@ -33,6 +32,13 @@ def index():
 def view_post(post_id):
     post = Post.query.filter_by(id=post_id).first_or_404()
     return render_template('post.html', title=post.title,
+                           post=post)
+
+
+@bp.route('/about')
+def about():
+    post = aboutPost.query.filter_by(title="About").first_or_404()
+    return render_template('about.html', title=post.title,
                            post=post)
 
 

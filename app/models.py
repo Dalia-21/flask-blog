@@ -14,6 +14,17 @@ class Post(db.Model):
         return '<Title: {}>\nPost {}'.format(self.title, self.body)
 
 
+class aboutPost(db.Model):
+    __tablename__ = 'about_posts'
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.String())
+    title = db.Column(db.String())
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
+    def __repr__(self):
+        return '<Title: {}>\nPost {}'.format(self.title, self.body)
+
+
 class User(db.Model, UserMixin):  # needs to conform to flask_login requirements
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)

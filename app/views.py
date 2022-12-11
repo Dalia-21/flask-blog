@@ -1,8 +1,7 @@
 from flask_login.utils import current_user
 from flask_admin.contrib.sqla import ModelView
 from flask import redirect, url_for
-from app.models import User
-from app.models import Post
+from app.models import User, Post, aboutPost
 from flask_admin import AdminIndexView, expose
 from flask_admin.base import MenuLink
 from flask_admin import Admin
@@ -42,6 +41,7 @@ class SecureModelView(ModelView):
 
 admin = Admin(index_view=SecureAdminIndexView())
 admin.add_view(SecureModelView(Post, db.session, name='Posts'))
+admin.add_view(SecureModelView(aboutPost, db.session, name='About Posts'))
 
 logout_link = MenuLink(name='Logout', url='/admin/logout')
 admin.add_link(logout_link)
