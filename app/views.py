@@ -8,6 +8,7 @@ from flask_admin import Admin
 from app import login_manager
 from flask import request
 from app import db
+from wtforms import TextAreaField
 
 
 class SecureAdminIndexView(AdminIndexView):
@@ -29,6 +30,10 @@ class SecureAdminIndexView(AdminIndexView):
 
 
 class SecureModelView(ModelView):
+    form_overrides = {
+        'body': TextAreaField
+    }
+
     def is_accessible(self):
         if current_user.is_authenticated:
             return current_user.admin
