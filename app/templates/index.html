@@ -7,7 +7,7 @@
     </div>
    {% for post in posts %}
     <h1 class="text-center"><a href="{{ url_for('main.view_post', post_id=post.id) }}">{{ post.title }}</a></h1>
-    <div class="container" style="max-width: 800px" id="post{{ post.id }}">
+    <div class="container" style="max-width: 800px; white-space: pre-wrap;" id="post{{ post.id }}">
         {{ post.body | safe }}<a href="{{ url_for('main.view_post', post_id=post.id) }}"> Read more...</a></div>
     {% endfor %}
     {% if prev_url %}
