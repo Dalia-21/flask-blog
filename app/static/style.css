@@ -24,4 +24,9 @@ a:link, a:visited, a:hover, a:active {
     text-decoration: none;
 }
 h1 { color: deeppink; }
-nav { background-color: pink };
+nav { background-color: pink; }
+#post {
+    white-space: pre-wrap;
+    text-indent: 50px;
+    margin-bottom: 5%;
+}
